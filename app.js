@@ -8,15 +8,19 @@ var bodyParser = require('body-parser');
 var app = express();
 
 // Body Parser
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Importar rutas
 var appRoutes = require('./routes/app');
+var busquedaRoutes = require('./routes/busqueda');
 var usuarioRoutes = require('./routes/usuario');
+var medicoRoutes = require('./routes/medico');
+var hospitalRoutes = require('./routes/hospital');
 var loginRoutes = require('./routes/login');
+var uploadRoutes = require('./routes/upload');
+var imagenesRoutes = require('./routes/imagenes');
 
 // Conexion a la base de datos
 mongoose.connection.openUri('mongodb://localhost:27017/propietasDB', (err, res)=> {
@@ -25,9 +29,21 @@ mongoose.connection.openUri('mongodb://localhost:27017/propietasDB', (err, res)=
 
 });
 
+// Server index config
+// var serveIndex = require('serve-index');
+// app.use(express.static(__dirname + '/'))
+// app.use('/uploads', serveIndex(__dirname + '/uploads'));
+
+
 // Rutas
+app.use('/medico', medicoRoutes);
+app.use('/hospital', hospitalRoutes)
 app.use('/usuario', usuarioRoutes);
+app.use('/busqueda', busquedaRoutes);
 app.use('/login', loginRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/img', imagenesRoutes);
+
 app.use('/', appRoutes);
 
 
