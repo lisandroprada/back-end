@@ -9,10 +9,10 @@ var SEED = require('../config/config').SEED;
 exports.verificaToken = function(req, res, next) {
 
     var token = req.query.token;
-    jwt.verify( token, SEED, (err, decoded) =>{
+    jwt.verify(token, SEED, (err, decoded) => {
 
-        if(err) {
-            return res.status(401).json({ 
+        if (err) {
+            return res.status(401).json({
                 ok: false,
                 mensaje: 'Token incorrecto',
                 errors: err
@@ -23,8 +23,41 @@ exports.verificaToken = function(req, res, next) {
     });
 }
 
+// ===========================
+// Verificar ADMIN
+// ===========================
+exports.verificaAdmin_ROLE = function(req, res, next) {
 
+    var usuario = req.usuario;
 
+    if (usuario.role === 'ADMIN_ROLE') {
+        next();
+        return
+    } else {
+        return res.status(401).json({
+            ok: false,
+            mensaje: 'Token incorrecto',
+            errors: { message: 'No es administrador' }
+        });
+    }
+}
 
-    
+// ===========================
+// Verificar ADMIN o Mismo usuario
+// ===========================
+exports.verificaAdmin_sameUser = function(req, res, next) {
 
+    var usuario = req.usuario;
+    var id = req.params.id;
+
+    if (usuario.role === 'ADMIN_ROLE' || usuario._id === id) {
+        next();
+        return
+    } else {
+        return res.status(401).json({
+            ok: false,
+            mensaje: 'Token incorrecto',
+            errors: { message: 'No es administrador' }
+        });
+    }
+}

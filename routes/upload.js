@@ -27,8 +27,8 @@ app.put('/:tipo/:id', (req, res, next) => {
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(400).json({
             ok: false,
-            mensaje: 'Tipo de colecciÃ³n no es vÃ¡lida',
-            errors: { message: 'Tipo de colecciÃ³n no es vÃ¡lida' }
+            mensaje: 'Tipo de colección no es válida',
+            errors: { message: 'Tipo de colección no es válida' }
         });
     }
 
@@ -52,7 +52,7 @@ app.put('/:tipo/:id', (req, res, next) => {
     if (extensionesValidas.indexOf(extensionArchivo) < 0) {
         return res.status(400).json({
             ok: false,
-            mensaje: 'Extension no vÃ¡lida',
+            mensaje: 'Extension no válida',
             errors: { message: 'Las extensiones vÃ¡lidas son ' + extensionesValidas.join(', ') }
         });
     }
@@ -68,6 +68,7 @@ app.put('/:tipo/:id', (req, res, next) => {
     archivo.mv(path, err => {
 
         if (err) {
+
             return res.status(500).json({
                 ok: false,
                 mensaje: 'Error al mover archivo',
@@ -160,7 +161,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                 return res.status(200).json({
                     ok: true,
                     mensaje: 'Imagen de mÃ©dico actualizada',
-                    usuario: medicoActualizado
+                    medico: medicoActualizado
                 });
 
             })
@@ -194,7 +195,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                 return res.status(200).json({
                     ok: true,
                     mensaje: 'Imagen de hospital actualizada',
-                    usuario: hospitalActualizado
+                    hospital: hospitalActualizado
                 });
 
             })
